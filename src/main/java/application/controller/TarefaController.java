@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 import application.model.Tarefa;
@@ -26,6 +28,17 @@ public class TarefaController {
         return tarefaRepo.save(novaTarefa);
     }
 
+    @GetMapping("/{id}")
+    public Tarefa getOne(@PathVariable long id) {
+        Optional<Tarefa> resultado = tarefaRepo.findById(id);
+
+        if (resultado.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada");
+        }
+
+        return resultado.get();
+    }
+
     @GetMapping
     public Iterable<Tarefa> getAll() {
         return tarefaRepo.findAll();
@@ -35,16 +48,21 @@ public class TarefaController {
     public Tarefa update(@PathVariable long id, @RequestBody Tarefa novosDados) {
         Optional<Tarefa> resultado = tarefaRepo.findById(id);
         
-        if (resultado.isPresent()) {
-            resultado.get().setDescricao(novosDados.getDescricao());
-            return tarefaRepo.save(resultado.get());
+        if (resultado.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada");
         }
 
-        return new Tarefa();
+        resultado.get().setDescricao(novosDados.getDescricao());
+        return tarefaRepo.save(resultado.get());
+        
     }
 
     @DeleteMapping("/{id}")
     public void remove(@PathVariable long id) {
+        if (!tarefaRepo.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada");
+        }
+        
         tarefaRepo.deleteById(id);
     }
 }

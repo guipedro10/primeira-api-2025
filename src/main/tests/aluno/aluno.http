@@ -1,0 +1,32 @@
+@url = https://verbose-broccoli-gg67qrp7ggjhw66r-8080.app.github.dev/alunos
+
+POST {{url}}
+Content-Type: application/json
+
+{
+    "id": 2,
+    "nome": "Nome2",
+    "idade": 21
+}
+
+###
+
+GET {{url}}
+
+###
+
+GET {{url}}/1
+
+###
+
+PUT {{url}}/1
+Content-Type: application/json
+
+{
+    "nome": "Nome1",
+    "idade": 19
+}
+
+###
+
+DELETE {{url}}/2

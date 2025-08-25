@@ -23,7 +23,7 @@ Content-Type: application/json
 
 ###
 
-PUT {{url}}/3
+PUT {{url}}/5
 Content-Type: application/json
 
 {
@@ -32,4 +32,4 @@ Content-Type: application/json
 
 ###
 
-DELETE {{url}}/3
+DELETE {{url}}/7

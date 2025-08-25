@@ -8,8 +8,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Tarefa {
+public class Aluno {
     @Id
     private long id;
-    private String descricao;
+    private String nome;
+    private int idade;
 }
